@@ -12,6 +12,4 @@ after_success:
   - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 310228935478.dkr.ecr.us-west-2.amazonaws.com
   - aws eks update-kubeconfig --region us-west-2 --name at-interviews-cluster
   - docker push 310228935478.dkr.ecr.us-west-2.amazonaws.com/helloworld:$COMMIT_ID
-
- Deploy:
   - helm upgrade --install --namespace $(whoami) --create-namespace helloworld --set image.tag=$COMMIT_ID helm/helloworld
