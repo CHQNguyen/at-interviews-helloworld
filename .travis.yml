@@ -1,0 +1,19 @@
+sudo: required
+
+services: docker
+
+before_install:
+  - export COMMIT_ID=$(git rev-parse --verify --short HEAD)
+  - docker build --no-cache --build-arg GIT_COMMIT=$COMMIT_ID -t helloworld:$COMMIT_ID -t 310228935478.dkr.ecr.us-west-2.amazonaws.com/helloworld:$COMMIT_ID
+  - docker push 310228935478.dkr.ecr.us-west-2.amazonaws.com/helloworld:$COMMIT_ID
+
+Deploy:
+  # provider:
+  region: us-west-2
+  app: "at-interview"
+  env: "at-interview-env"
+  on:
+    branch: master
+  access_key_id: "$AWS_ACCESS_KEY_ID"
+  secret_access_key: "$AWS_SECRET_KEY"
+  - helm upgrade --install --namespace $(whoami) --create-namespace helloworld --set image.tag=$COMMIT_ID helm/helloworld
