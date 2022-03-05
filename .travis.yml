@@ -5,6 +5,8 @@ language: generic
 services: docker
 
 after_success:
+  - pip install --user awscli # install aws cli w/o sudo
+  - export PATH=$PATH:$HOME/.local/bin # put aws in the path
   - export COMMIT_ID=$(git rev-parse --verify --short HEAD)
   - docker build --no-cache --build-arg GIT_COMMIT=$COMMIT_ID -t helloworld:$COMMIT_ID -t 310228935478.dkr.ecr.us-west-2.amazonaws.com/helloworld:$COMMIT_ID .
   - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 310228935478.dkr.ecr.us-west-2.amazonaws.com
