@@ -10,7 +10,7 @@ install:
   - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
   - chmod +x ./kubectl # give user access to kubectl
   - sudo mv ./kubectl /usr/local/bin/kubectl # move kubectl path to usr/local/bin
-  - curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+  - curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash # install helm
 
 after_success:
   - export COMMIT_ID=$(git rev-parse --verify --short HEAD)
@@ -19,3 +19,8 @@ after_success:
   - aws eks update-kubeconfig --region us-west-2 --name at-interviews-cluster
   - docker push 310228935478.dkr.ecr.us-west-2.amazonaws.com/helloworld:$COMMIT_ID
   - helm upgrade --install --namespace $(whoami) --create-namespace helloworld --set image.tag=$COMMIT_ID helm/helloworld
+
+deploy:
+  skip_cleanup: true
+  on:
+    branch: master
