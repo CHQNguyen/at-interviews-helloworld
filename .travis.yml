@@ -10,7 +10,9 @@ install:
   - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
   - chmod +x ./kubectl # give user access to kubectl
   - sudo mv ./kubectl /usr/local/bin/kubectl # move kubectl path to usr/local/bin
-  - curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash # install helm
+  - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 # install helm
+  - chmod 700 get_helm.sh
+  - ./get_helm.sh
 
 after_success:
   - export COMMIT_ID=$(git rev-parse --verify --short HEAD)
