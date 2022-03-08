@@ -12,16 +12,17 @@ install:
   - sudo mv ./kubectl /usr/local/bin/kubectl # move kubectl path to usr/local/bin
   - curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash # install helm
 
-after_success:
-  - export COMMIT_ID=$(git rev-parse --verify --short HEAD)
-  - docker build --no-cache --build-arg GIT_COMMIT=$COMMIT_ID -t helloworld:$COMMIT_ID -t 310228935478.dkr.ecr.us-west-2.amazonaws.com/helloworld:$COMMIT_ID .
-  - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 310228935478.dkr.ecr.us-west-2.amazonaws.com
-  - aws eks update-kubeconfig --region us-west-2 --name at-interviews-cluster
-  - docker push 310228935478.dkr.ecr.us-west-2.amazonaws.com/helloworld:$COMMIT_ID
-  - helm upgrade --install --namespace $(whoami) --create-namespace helloworld --set image.tag=$COMMIT_ID helm/helloworld
+# after_success:
+#   - export COMMIT_ID=$(git rev-parse --verify --short HEAD)
+#   - docker build --no-cache --build-arg GIT_COMMIT=$COMMIT_ID -t helloworld:$COMMIT_ID -t 310228935478.dkr.ecr.us-west-2.amazonaws.com/helloworld:$COMMIT_ID .
+#   - aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 310228935478.dkr.ecr.us-west-2.amazonaws.com
+#   - aws eks update-kubeconfig --region us-west-2 --name at-interviews-cluster
+#   - docker push 310228935478.dkr.ecr.us-west-2.amazonaws.com/helloworld:$COMMIT_ID
+#   - helm upgrade --install --namespace $(whoami) --create-namespace helloworld --set image.tag=$COMMIT_ID helm/helloworld
 
 deploy:
-  provider: s3
+  provider: script
+  script: bash local-deploy.sh
   skip_cleanup: true
   on:
     branch: main
