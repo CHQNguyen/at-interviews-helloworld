@@ -13,7 +13,6 @@ env:
 before_install:
   - pip install --user awscli # install aws cli w/o sudo
   - export PATH=$PATH:$HOME/.local/bin # put aws in the path
-  # - ./ecr_credentials.sh
   - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
   - chmod +x ./kubectl # give user access to kubectl
   - sudo mv ./kubectl /usr/local/bin/kubectl # move kubectl path to usr/local/bin
@@ -34,3 +33,7 @@ deploy:
   # script: bash deploy-prod.sh
   # on:
   #   branch: main
+
+after_deploy:
+  - kubectl --namespace travis get ingress
+  - kubectl --namespace travis describe ingress helloworld
