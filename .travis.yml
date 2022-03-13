@@ -6,9 +6,9 @@ services:
 - docker
 env:
   global:
-  - secure: travisEncryptedAWS_ACCOUNT_ID
-  - secure: travisEncryptedAWS_ACCESS_KEY_ID
-  - secure: travisEncryptedAWS_SECRET_ACCESS_KEY
+  - secure: travisEncryptedAWS_ACCOUNT_ID # ENV save in travis CI ENV Var
+  - secure: travisEncryptedAWS_ACCESS_KEY_ID # ENV save in travis CI ENV Var
+  - secure: travisEncryptedAWS_SECRET_ACCESS_KEY # ENV save in travis CI ENV Var
 
 before_install:
   - pip install --user awscli # install aws cli w/o sudo
@@ -17,16 +17,16 @@ before_install:
   - chmod +x ./kubectl # give user access to kubectl
   - sudo mv ./kubectl /usr/local/bin/kubectl # move kubectl path to usr/local/bin
   - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 # install helm
-  - chmod 700 get_helm.sh
-  - ./get_helm.sh
+  - chmod 700 get_helm.sh # give access to user to run script
+  - ./get_helm.sh # run script install helm
 
 script:
   - export COMMIT_ID=$(git rev-parse --verify --short HEAD)
   - docker build --no-cache --build-arg GIT_COMMIT=$COMMIT_ID -t helloworld:$COMMIT_ID -t 310228935478.dkr.ecr.us-west-2.amazonaws.com/helloworld:$COMMIT_ID .
 
-deploy:
+deploy: # used deploy to split deployment base off release(Prod Branch) or UAT(Test Branch)
   provider: script
-  script: bash deploy.sh
+  script: bash deploy.sh # used the provide local-deploy script as a base for deploy
   on:
     branch: main
   # provider: script
@@ -34,6 +34,6 @@ deploy:
   # on:
   #   branch: main
 
-after_deploy:
+after_deploy: # used print out URL for hello world site
   - kubectl --namespace travis get ingress
   - kubectl --namespace travis describe ingress helloworld
