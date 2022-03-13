@@ -21,7 +21,6 @@ echo commit ID is $COMMIT_ID
 # This updates your local ~/.kube/config file with authentication info
 # for our test EKS cluster
 aws eks update-kubeconfig \
-    --profile at-interviews \
     --region us-west-2 \
     --name at-interviews-cluster
 
@@ -32,7 +31,6 @@ kubectl config \
 # Then we log in to the Elastic Container Registry (ECR) so we have an
 # AWS-accessible place to push the Docker container we're about to build...
 aws ecr get-login-password \
-    --profile at-interviews \
     --region us-west-2 \
     | docker login \
     --username AWS \
