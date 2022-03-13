@@ -32,7 +32,7 @@ deploy: # used deploy to split deployment base off release(Prod Branch) or UAT(T
   provider: script
   script: bash deploy-prod.sh
   on:
-    branch: release
+    branch: release # release branch deploy
 
 after_deploy: # used print out URL for hello world site
   - kubectl --namespace travis get ingress
