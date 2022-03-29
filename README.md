@@ -101,16 +101,17 @@ That should plug n' chug for a minute, then spit out some `kubectl` commands tha
 # Automate Deploy with Travis CI
 
 ## Accounts
-To create automation you will first need to clone this repo into your personal Github account.  You will also need to sign up for Travis CI account and link your Github account to your Travis CI account.  Github will require that you give permission to Travis CI by selecting all repo or just the one you want to share.
+To create an auto-build job with Travis CI.  You will first need to clone this repo into your personal Github account.  You will also need to sign up for Travis CI account if you don’t already have one and link your Github account to your Travis CI account.  Github will require that you give permission to Travis CI by selecting all repo or selecting just the one you want to share.
 
 ## ENV VAR
-To ensure that Travis CI can connect to the proper AWS Account you will need to pass in the following 3 ENV variables.  You can find this by going to the main dashboard going to active repositories and finding the repo you allowed Travis CIO to access in our case it would be `at-interviews-helloworld` Then clicking on the 3 lines at the end of the repo and selecting settings.  Under the Environment Variables, these 3 variables should be set.  You can find the information you need in your email from the AllTrails team.
+To ensure that Travis CI can connect to the proper AWS Account you will need to pass in the following 3 Environment Variables.  You can get to this by navigating to the main dashboard in Travis CI and going to active repositories Then finding the repo you allowed Travis CI to access in our case it would be `at-interviews-helloworld` Then clicking on the 3 lines at the end of that repo and selecting settings.  Scroll down to the Environment Variables section, these 3 variables should be set.  You can find the information you need in your email from the AllTrails team.
 
 ```
-AWS_ACCESS_KEY_ID
-AWS_ACCOUNT_ID
-AWS_SECRET_ACCESS_KEY
+AWS_ACCESS_KEY_ID: <Check Your Alltrails Emails>
+AWS_ACCOUNT_ID:  <Check Your Alltrails Emails>
+AWS_SECRET_ACCESS_KEY: <Check Your Alltrails Emails>
 ```
 
 ## Triggering a Build
-To trigger and new build on Travis CI you will need to make a commit to the release or main branch.  Then push that change up into your Github repo.  If everything is done correctly a new build tag should deploy and show up on the HelloWorld app.
+To trigger and new build on Travis CI you will need to commit a change to the release or main branch.  Then push that change up into your Github repo.  If everything is done correctly a new build tag should deploy and show up on the HelloWorld app.
+
