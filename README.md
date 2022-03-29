@@ -113,4 +113,4 @@ AWS_SECRET_ACCESS_KEY
 ```
 
 ## Triggering a Build
-To trigger and new build on Travis CI you will need to make a commit to the release or master branch.  Then push that change up into your Github repo.  If everything is done correctly a new build tag should deploy and show up on the HelloWorld app.
+To trigger and new build on Travis CI you will need to make a commit to the release or main branch.  Then push that change up into your Github repo.  If everything is done correctly a new build tag should deploy and show up on the HelloWorld app.
