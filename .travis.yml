@@ -29,10 +29,10 @@ deploy: # used deploy to split deployment base off release(Prod Branch) or UAT(T
   script: bash deploy.sh # used the provide local-deploy script as a base for deploy
   on:
     branch: main # deploy when new code is push to main branch
-  provider: script
-  script: bash deploy-prod.sh # will run this script with new code is push to release branch
-  on:
-    branch: release # deploy when new code is push to release branch
+#   provider: script
+#   script: bash deploy-prod.sh # will run this script with new code is push to release branch
+#   on:
+#     branch: release # deploy when new code is push to release branch
 
 after_deploy: # used print out URL for hello world site
   - kubectl --namespace travis get ingress
